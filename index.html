@@ -7,6 +7,8 @@
     <meta name="author" content="TMS Marketing Agency">
     <title>TMS Marketing Agency</title>
 
+    <link rel="stylesheet" href="styles.css">
+
     <style>
         :root {
             --primary-color: #000000;
@@ -92,6 +94,93 @@
         }
 
         h2 { font-size: 2.5rem; margin-bottom: 20px; }
+
+        /* SCAM DETECTOR */
+        .detector-container {
+            background: var(--bg-light);
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 30px;
+        }
+
+        .detector-input {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+            box-sizing: border-box;
+        }
+
+        .detector-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+        }
+
+        .detector-btn {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: var(--transition);
+        }
+
+        .detector-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .risk-result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .risk-result.show {
+            display: block;
+        }
+
+        .risk-low {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            color: #155724;
+        }
+
+        .risk-medium {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            color: #856404;
+        }
+
+        .risk-high {
+            background: #f8d7da;
+            border-left: 5px solid #dc3545;
+            color: #721c24;
+        }
+
+        .risk-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .detected-phrases {
+            margin-top: 15px;
+        }
+
+        .detected-phrases p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
 
         /* CONTACT FORM */
         #contact {
@@ -184,6 +273,7 @@
         <ul>
             <li><a href="#home">Home</a></li>
             <li><a href="#prize-scams">Education</a></li>
+            <li><a href="#detector">Scam Detector</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
@@ -203,6 +293,25 @@
                 <li><strong>Fake Giveaways:</strong> Always verify the social media profile's blue checkmark.</li>
                 <li><strong>Phishing:</strong> Never click links in unsolicited "prize" texts or emails.</li>
             </ul>
+        </section>
+
+        <section id="detector">
+            <h2>Scam Language Detector</h2>
+            <p>Paste text below to analyze it for common scam language patterns.</p>
+            
+            <div class="detector-container">
+                <textarea id="scamInput" class="detector-input" placeholder="Paste suspected scam text here..."></textarea>
+                <button class="detector-btn" onclick="analyzeText()">Analyze Text</button>
+                
+                <div id="riskResult" class="risk-result">
+                    <div class="risk-title" id="riskTitle"></div>
+                    <p id="riskMessage"></p>
+                    <div class="detected-phrases">
+                        <strong>Detected Phrases:</strong>
+                        <div id="detectedList"></div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="about">
@@ -248,7 +357,92 @@
         <p>&copy; 2026 TMS Marketing Agency. All rights reserved.</p>
     </footer>
 
+    <script src="scam-detector.js"></script>
+
     <script>
+        // Scam detection phrases and patterns
+        const scamPhrases = [
+            "you've won",
+            "congratulations",
+            "claim now",
+            "act now",
+            "limited time",
+            "urgent",
+            "guaranteed",
+            "risk-free",
+            "free money",
+            "inheritance",
+            "click here",
+            "verify account",
+            "update information",
+            "confirm identity",
+            "urgent action required",
+            "immediate action",
+            "don't delay",
+            "exclusive offer",
+            "special opportunity",
+            "prize",
+            "cash",
+            "lucky",
+            "selected",
+            "eligible",
+            "claim your reward",
+            "verify payment"
+        ];
+
+        function analyzeText() {
+            const text = document.getElementById('scamInput').value.toLowerCase();
+            const resultDiv = document.getElementById('riskResult');
+            const riskTitle = document.getElementById('riskTitle');
+            const riskMessage = document.getElementById('riskMessage');
+            const detectedList = document.getElementById('detectedList');
+
+            if (!text.trim()) {
+                alert('Please paste text to analyze');
+                return;
+            }
+
+            // Find detected phrases
+            const detected = [];
+            scamPhrases.forEach(phrase => {
+                if (text.includes(phrase)) {
+                    detected.push(phrase);
+                }
+            });
+
+            // Calculate risk level
+            let riskLevel = 'Low';
+            let riskClass = 'risk-low';
+            
+            if (detected.length >= 5) {
+                riskLevel = 'High';
+                riskClass = 'risk-high';
+            } else if (detected.length >= 2) {
+                riskLevel = 'Medium';
+                riskClass = 'risk-medium';
+            }
+
+            // Update result display
+            resultDiv.className = `risk-result show ${riskClass}`;
+            riskTitle.textContent = `Risk Level: ${riskLevel}`;
+            
+            if (detected.length === 0) {
+                riskMessage.textContent = 'No common scam language patterns detected.';
+                detectedList.innerHTML = '<p>None</p>';
+            } else {
+                riskMessage.textContent = `Found ${detected.length} suspicious phrase(s) in the text.`;
+                detectedList.innerHTML = detected.map(p => `<p>• "${p}"</p>`).join('');
+            }
+        }
+
+        // Allow Enter key to trigger analysis
+        document.getElementById('scamInput').addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                analyzeText();
+            }
+        });
+
+        // Contact form functionality
         const form = document.getElementById("contactForm");
         const status = document.getElementById("formStatus");
         const btn = document.getElementById("submitBtn");
