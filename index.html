@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="TMS Marketing Agency - Expert strategy and AI-driven security.">
+    <meta name="description" content="TMS Marketing Agency - Expert strategy, design, and performance marketing.">
+    <meta name="author" content="TMS Marketing Agency">
     <title>TMS Marketing Agency</title>
 
     <style>
@@ -24,16 +25,27 @@
             background: #fff;
         }
 
+        /* HEADER & NAV */
         header {
             background: var(--primary-color);
             color: #fff;
             padding: 40px 20px;
             display: flex;
             align-items: center;
+            justify-content: flex-start;
             gap: 40px;
         }
 
-        header img { max-width: 120px; background: #fff; border-radius: 4px; }
+        header img {
+            max-width: 120px;
+            background: #fff;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        header div { flex: 1; }
+        header h1 { margin: 0; font-size: 2rem; }
+        header p { margin: 5px 0 0 0; }
 
         nav {
             position: sticky;
@@ -53,71 +65,109 @@
             margin: 0;
         }
 
-        nav ul li a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            transition: var(--transition);
+        }
 
+        nav ul li a:hover { color: var(--secondary-color); }
+
+        /* SECTIONS */
         section {
-            padding: 80px 20px;
-            max-width: 900px;
+            padding: 100px 20px;
+            max-width: 1000px;
             margin: auto;
             scroll-margin-top: 60px;
         }
 
+        h2 { font-size: 2.5rem; margin-bottom: 20px; }
+
+        /* SCAM DETECTOR */
         .detector-container {
             background: var(--bg-light);
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-top: 30px;
         }
 
         .detector-input {
             width: 100%;
-            min-height: 160px;
+            min-height: 150px;
             padding: 15px;
             border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
             box-sizing: border-box;
-            resize: vertical;
         }
 
         .button-group {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             margin-top: 15px;
         }
 
-        .btn {
-            padding: 12px 25px;
+        .detector-btn {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 12px 30px;
             border: none;
             border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
             transition: var(--transition);
+            flex: 2;
         }
 
-        .btn-analyze { background: var(--primary-color); color: #fff; flex: 2; }
-        .btn-clear { background: #e0e0e0; color: #333; flex: 1; }
+        .clear-btn {
+            background: #e0e0e0;
+            color: #333;
+            flex: 1;
+        }
 
-        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
-        .btn:disabled { background: #999; cursor: not-allowed; }
+        .detector-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
 
-        /* RESULT BOX - Hidden by default */
+        .clear-btn:hover { background: #d0d0d0; }
+
+        /* FIXED: Result box starts hidden */
         .risk-result {
-            margin-top: 25px;
+            margin-top: 30px;
             padding: 20px;
             border-radius: 8px;
-            display: none; /* Crucial: Start Hidden */
+            display: none; 
         }
+
+        .risk-result.show { display: block; }
 
         .risk-low { background: #d4edda; border-left: 5px solid #28a745; color: #155724; }
         .risk-medium { background: #fff3cd; border-left: 5px solid #ffc107; color: #856404; }
         .risk-high { background: #f8d7da; border-left: 5px solid #dc3545; color: #721c24; }
 
-        .risk-title { font-size: 1.25rem; font-weight: bold; margin-bottom: 8px; }
+        .risk-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 10px; }
         
-        footer { background: var(--primary-color); color: #fff; text-align: center; padding: 30px; margin-top: 50px; }
+        /* Loading Animation */
+        .loading-pulse { animation: pulse 1.5s infinite; opacity: 0.7; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.98); }
+            100% { transform: scale(1); }
+        }
 
-        @media (max-width: 600px) {
+        footer {
+            background: var(--primary-color);
+            color: #fff;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
             header { flex-direction: column; text-align: center; }
             .button-group { flex-direction: column; }
         }
@@ -129,67 +179,70 @@
         <img src="./Logo.png" alt="TMS Logo">
         <div>
             <h1>TMS Marketing Agency</h1>
-            <p>Intelligence-driven marketing & consumer protection.</p>
+            <p>Results-driven advertising for the modern age.</p>
         </div>
     </header>
 
     <nav>
         <ul>
             <li><a href="#home">Home</a></li>
-            <li><a href="#detector">AI Detector</a></li>
+            <li><a href="#detector">Scam Detector</a></li>
+            <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
 
     <main>
-        <section id="home">
-            <h2>Verify Before You Click</h2>
-            <p>We use GPT-4o-mini to analyze text for psychological triggers, phishing patterns, and common fraud tactics.</p>
-        </section>
-
         <section id="detector">
+            <h2>AI Scam Language Detector</h2>
+            <p>Paste text below to analyze it for common scam patterns using AI.</p>
+            
             <div class="detector-container">
-                <textarea id="scamInput" class="detector-input" placeholder="Paste the email or text message here..."></textarea>
+                <textarea id="scamInput" class="detector-input" placeholder="Paste suspected scam text here..."></textarea>
                 
                 <div class="button-group">
-                    <button id="analyzeBtn" class="btn btn-analyze" onclick="analyzeText()">Analyze with AI</button>
-                    <button class="btn btn-clear" onclick="clearDetector()">Clear</button>
+                    <button class="detector-btn" id="analyzeBtn" onclick="analyzeText()">Analyze with AI</button>
+                    <button class="detector-btn clear-btn" onclick="clearDetector()">Clear</button>
                 </div>
-
+                
                 <div id="riskResult" class="risk-result">
-                    <div id="riskTitle" class="risk-title"></div>
+                    <div class="risk-title" id="riskTitle"></div>
                     <p id="riskMessage"></p>
-                    <div id="detectedList" style="margin-top: 10px; font-size: 0.95rem;"></div>
+                    <div class="detected-phrases">
+                        <strong>AI Red Flags:</strong>
+                        <div id="detectedList"></div>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>© 2026 TMS Marketing Agency</p>
+        <p>© 2026 TMS Marketing Agency. All rights reserved.</p>
     </footer>
 
     <script>
-        // Use your actual key here for development
-        const OPENAI_API_KEY = "YOUR_OPENAI_API_KEY_HERE";
+        // Replace with your actual key
+        const OPENAI_API_KEY = "YOUR_OPENAI_API_KEY_HERE"; 
 
         async function analyzeText() {
-            const input = document.getElementById('scamInput').value;
+            const input = document.getElementById('scamInput');
             const btn = document.getElementById('analyzeBtn');
-            const resultBox = document.getElementById('riskResult');
-            const title = document.getElementById('riskTitle');
-            const message = document.getElementById('riskMessage');
-            const list = document.getElementById('detectedList');
+            const resultDiv = document.getElementById('riskResult');
+            const riskTitle = document.getElementById('riskTitle');
+            const riskMessage = document.getElementById('riskMessage');
+            const detectedList = document.getElementById('detectedList');
 
-            if (!input.trim()) {
-                alert("Please enter some text.");
+            if (!input.value.trim()) {
+                alert('Please paste some text to analyze.');
                 return;
             }
 
-            // UI Setup
+            // UI Loading State
             btn.disabled = true;
-            btn.textContent = "Analyzing patterns...";
-            resultBox.style.display = "none"; // Ensure it's hidden while loading
+            btn.textContent = "AI is thinking...";
+            btn.classList.add('loading-pulse');
+            resultDiv.classList.remove('show'); // Hide previous results
 
             try {
                 const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -203,36 +256,35 @@
                         messages: [
                             {
                                 role: "system",
-                                content: "You are a scam detection expert. Analyze the text and return JSON: { 'level': 'Low|Medium|High', 'cssClass': 'risk-low|risk-medium|risk-high', 'explanation': 'summary', 'flags': ['flag1', 'flag2'] }"
+                                content: "You are a fraud detection AI. Analyze the text and return ONLY a JSON object: { 'level': 'Low|Medium|High', 'color': 'risk-low|risk-medium|risk-high', 'flags': ['reason1', 'reason2'] }"
                             },
-                            { role: "user", content: input }
+                            { role: "user", content: input.value }
                         ],
                         response_format: { type: "json_object" }
                     })
                 });
 
                 const data = await response.json();
-                const ai = JSON.parse(data.choices[0].message.content);
+                const aiResult = JSON.parse(data.choices[0].message.content);
 
-                // Populate and Show Results
-                resultBox.className = `risk-result ${ai.cssClass}`;
-                resultBox.style.display = "block"; // Only shows now
-                title.textContent = `Risk Assessment: ${ai.level}`;
-                message.textContent = ai.explanation;
-                list.innerHTML = "<strong>Red Flags:</strong>" + ai.flags.map(f => `<p style="margin:4px 0;">• ${f}</p>`).join('');
+                // Populate and Show Result
+                resultDiv.className = `risk-result show ${aiResult.color}`;
+                riskTitle.textContent = `Risk Level: ${aiResult.level}`;
+                riskMessage.textContent = `AI analysis found ${aiResult.flags.length} suspicious pattern(s).`;
+                detectedList.innerHTML = aiResult.flags.map(f => `<p>• ${f}</p>`).join('');
 
-            } catch (err) {
-                alert("Error connecting to AI. Check console or API key.");
-                console.error(err);
+            } catch (error) {
+                alert("Check your API key or connection.");
             } finally {
                 btn.disabled = false;
                 btn.textContent = "Analyze with AI";
+                btn.classList.remove('loading-pulse');
             }
         }
 
         function clearDetector() {
             document.getElementById('scamInput').value = "";
-            document.getElementById('riskResult').style.display = "none";
+            document.getElementById('riskResult').classList.remove('show');
         }
     </script>
 </body>
